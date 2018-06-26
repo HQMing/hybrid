@@ -1,0 +1,40 @@
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+</head>
+<script src="http://unpkg.com/vue/dist/vue.min.js"></script>
+	<div id="app">
+	<div>
+		<button onClick="jsCallAndroid1(vuehandle.list.length)">js调用android方法1</button>
+		<button onClick="jsCallAndroid2(vuehandle.list.length)">js调用android方法2</button>
+		<button onClick="jsCallAndroid3(vuehandle.list.length)">js调用android方法3</button>
+	</div>
+	<div>已经注册了{{list.length}}名
+		<div v-for="item in list">{{item.name}}--{{item.time}}</div>
+	</div>
+</div>
+<script>
+console.log('loading page.')
+var vuehandle = new Vue({
+	el:'#app',
+	data:{
+		list:[{name:"崔宇",time:new Date()}]
+	}
+})
+register = function(name){
+	if(vuehandle.list.findIndex((item)=>item.name==name)<0){
+		vuehandle.list.push({name:name,time:new Date()});
+	}
+	return vuehandle.list.length;
+}
+
+jsCallAndroid1=function(num){
+	window.hybrid.sayHi(num);
+}
+jsCallAndroid2=function(num){
+	document.location = "js://webview?arg1="+num;
+}
+jsCallAndroid3=function(num){
+	alert('注册了'+num+'人');
+}
+</script>
